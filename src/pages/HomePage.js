@@ -31,7 +31,7 @@ export default class Welcome extends Component {
             <TabNavigator.Item
                 selected={selectedTab === thisTab}
                 title={thisTitle}
-                selectedTitleStyle={{color:'#4caf50'}}
+                selectedTitleStyle={{color: '#4caf50'}}
                 renderIcon={() => <Image style={styles.tabBarIcon} source={thisImg}/>}
                 renderSelectedIcon={() => <Image style={styles.tabBarSelectedIcon} source={thisImg}/>}
                 onPress={() => this.setState({selectedTab: thisTab})}>
@@ -44,9 +44,9 @@ export default class Welcome extends Component {
         return (
             <View style={styles.container}>
                 <TabNavigator>
-                    {this.renderTab('flag_popularTab', '流行', require('../images/ic_polular.png'), Popular)}
+                    {this.renderTab('flag_popularTab', '最热', require('../images/ic_polular.png'), Popular)}
                     {this.renderTab('flag_trendingTab', '趋势', require('../images/ic_trending.png'), Trending)}
-                    {this.renderTab('flag_favoriteTab', '喜欢', require('../images/ic_favorite.png'), Favorite)}
+                    {this.renderTab('flag_favoriteTab', '收藏', require('../images/ic_favorite.png'), Favorite)}
                     {this.renderTab('flag_myTab', '我的', require('../images/ic_my.png'), My)}
                 </TabNavigator>
             </View>

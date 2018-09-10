@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 
@@ -21,6 +21,7 @@ export default class Popular extends Component {
                     tabBarInactiveTextColor='#fff'
                     tabBarActiveTextColor='mintcream'
                     tabBarUnderlineStyle={{backgroundColor: '#e7e7e7', height: 2}}
+                    renderTabBar={() => <ScrollableTabBar/>}
                 >
                     <PopularTab tabLabel='all'/>
                     <PopularTab tabLabel='Android'/>
@@ -37,33 +38,52 @@ class PopularTab extends Component {
         super(props);
         this.state = {
             projectModels: [],
-            loading: false
+            isLoading: false
         }
     }
 
     componentWillMount() {
-        let url = this.getFetchUrl(this.props.tabLabel);
-        FetchUtil.get(url)
-            .then(result => {
-                this.setState({
-                    projectModels: result.items
-                })
-            })
+        this.loadData();
     }
 
     getFetchUrl(key) {
         return URL + key + QUERY_STR;
     }
 
-    _renderItem(item) {
-        return <RepositoryCell item={item}/>
+    loadData(refreshing) {
+        this.setState({
+            isLoading: true
+        });
+
+        let url = this.getFetchUrl(this.props.tabLabel);
+
+        FetchUtil.get(url)
+            .then(result => {
+                this.setState({
+                    projectModels: result.items,
+                    isLoading: false
+                })
+            })
+
+    }
+
+    genIndcator() {
+        return (
+            <View>
+                <ActivityIndicator size='large' animating={true}/>
+            </View>
+        )
     }
 
     render() {
+        const {projectModels, isLoading} = this.state;
         return (
             <View>
-                <FlatList data={this.state.projectModels}
-                          renderItem={({item}) => this._renderItem(item)}
+                <FlatList
+                    data={projectModels}
+                    renderItem={({item}) => <RepositoryCell item={item}/>}
+                    refreshing={isLoading}
+                    onRefresh={() => this.loadData()}
                 />
             </View>
         )
