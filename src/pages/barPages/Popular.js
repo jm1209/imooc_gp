@@ -4,6 +4,7 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 
 import NavigationBar from '../../common/NavigationBar';
+import RepositoryCell from '../../common/RepositoryCell'
 import FetchUtil from '../../utils/FetchUtil';
 
 const URL = 'https://api.github.com/search/repositories?q=';
@@ -15,7 +16,12 @@ export default class Popular extends Component {
             <View style={styles.container}>
                 <NavigationBar title='流行'/>
 
-                <ScrollableTabView>
+                <ScrollableTabView
+                    tabBarBackgroundColor='#4caf50'
+                    tabBarInactiveTextColor='#fff'
+                    tabBarActiveTextColor='mintcream'
+                    tabBarUnderlineStyle={{backgroundColor: '#e7e7e7', height: 2}}
+                >
                     <PopularTab tabLabel='all'/>
                     <PopularTab tabLabel='Android'/>
                     <PopularTab tabLabel='IOS'/>
@@ -50,12 +56,7 @@ class PopularTab extends Component {
     }
 
     _renderItem(item) {
-        return (
-            <View>
-                <Text>{item.full_name}</Text>
-                <Text>{item.description}</Text>
-            </View>
-        )
+        return <RepositoryCell item={item}/>
     }
 
     render() {
