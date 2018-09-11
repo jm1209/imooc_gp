@@ -1,12 +1,44 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 
 import NavigationBar from '../../common/NavigationBar';
 import ViewUtil from '../../utils/ViewUtil';
+import LanguageDao, {FLAG_LANGUAGE} from '../../common/LanguageDao';
 
 export default class CustomKey extends Component {
+    constructor(props) {
+        super(props);
+
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.state = {
+            tagArr: []
+        }
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    loadData() {
+        this.languageDao.fetch()
+            .then(result => {
+                this.setState({
+                    tagArr: result
+                });
+            });
+    }
+
     isSave() {
         this.props.navigation.pop();
+    }
+
+    renderView() {
+        const {tagArr} = this.state;
+
+        if (tagArr || tagArr.length == 0) {
+            return null;
+        }
+
     }
 
     render() {
@@ -23,9 +55,9 @@ export default class CustomKey extends Component {
                         </TouchableOpacity>
                     }
                 />
-                <TouchableOpacity>
-                    <Text>自定义标签页</Text>
-                </TouchableOpacity>
+                <ScrollView>
+                    {this.renderView()}
+                </ScrollView>
             </View>
         )
     }
