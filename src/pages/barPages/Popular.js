@@ -17,7 +17,7 @@ export default class Popular extends Component {
                 <NavigationBar title='流行'/>
 
                 <ScrollableTabView
-                    tabBarBackgroundColor='#4caf50'
+                    tabBarBackgroundColor='#6495ED'
                     tabBarInactiveTextColor='#fff'
                     tabBarActiveTextColor='mintcream'
                     tabBarUnderlineStyle={{backgroundColor: '#e7e7e7', height: 2}}
@@ -46,9 +46,9 @@ class PopularTab extends Component {
         this.loadData();
     }
 
-    getFetchUrl(key) {
+    getFetchUrl = (key) => {
         return URL + key + QUERY_STR;
-    }
+    };
 
     loadData(refreshing) {
         this.setState({
@@ -89,7 +89,6 @@ class PopularTab extends Component {
         )
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {

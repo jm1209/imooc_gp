@@ -20,7 +20,7 @@ export default class Welcome extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image style={styles.logo} source={require('../images/logo.png')}></Image>
+                <Image style={styles.logo} source={require('../images/ic_app_120.png')}></Image>
                 <Text style={styles.logoText}>imooc_gp</Text>
                 <Text style={styles.text}>Copyright©金明个人技术中心2016 | devio.org</Text>
             </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     },
     logoText: {
         marginTop: 25,
-        color: '#4CAF50',
+        color: '#6495ED',
         fontSize: 25
     },
     text: {

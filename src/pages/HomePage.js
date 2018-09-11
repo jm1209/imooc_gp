@@ -31,11 +31,11 @@ export default class Welcome extends Component {
             <TabNavigator.Item
                 selected={selectedTab === thisTab}
                 title={thisTitle}
-                selectedTitleStyle={{color: '#4caf50'}}
+                selectedTitleStyle={{color: '#6495ED'}}
                 renderIcon={() => <Image style={styles.tabBarIcon} source={thisImg}/>}
                 renderSelectedIcon={() => <Image style={styles.tabBarSelectedIcon} source={thisImg}/>}
                 onPress={() => this.setState({selectedTab: thisTab})}>
-                <Component/>
+                <Component {...this.props}/>
             </TabNavigator.Item>
         )
     }
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
         width: 26,
         height: 26,
         resizeMode: 'contain',
-        tintColor: '#4caf50'
+        tintColor: '#6495ED'
     }
 });
