@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Image} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert} from 'react-native';
 
 import CheckBox from 'react-native-check-box';
 
@@ -33,8 +33,29 @@ export default class CustomKey extends Component {
     }
 
     isSave() {
+        if (this.changeVal.length === 0) {
+            this.props.navigation.pop();
+            return;
+        }
+        this.languageDao.save(this.state.tagArr);
         this.props.navigation.pop();
     }
+
+    onBack() {
+        Alert.alert(
+            '提示',
+            '要保存修改么？',
+            [
+                {text: '不保存', onPress: () => this.props.navigation.pop()},
+                {text: '保存', onPress: () => this.isSave()}
+            ]
+        )
+    }
+
+    checkBoxChange = (data) => {
+        data.checked = !data.checked;
+        ArrayUtil.updateArray(this.changeVal, data);
+    };
 
     renderView() {
         const {tagArr} = this.state;
@@ -67,7 +88,6 @@ export default class CustomKey extends Component {
         let leftText = data.name;
         let isChecked = data.checked;
 
-
         return (
             <CheckBox
                 style={{flex: 1, padding: 10}}
@@ -81,19 +101,12 @@ export default class CustomKey extends Component {
         )
     }
 
-    checkBoxChange = (data) => {
-        data.checked = !data.checked;
-
-        ArrayUtil.updateArray(this.changeVal, data);
-    };
-
-
     render() {
         return (
             <View style={styles.container}>
                 <NavigationBar
                     title='自定义标签'
-                    leftButton={ViewUtil.topBackBtn(() => this.isSave())}
+                    leftButton={ViewUtil.topBackBtn(() => this.onBack())}
                     rightButton={
                         <TouchableOpacity onPress={() => this.isSave()}>
                             <View style={{margin: 10}}>

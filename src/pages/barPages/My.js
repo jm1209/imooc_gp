@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity,AsyncStorage} from 'react-native';
 
 import NavigationBar from '../../common/NavigationBar';
 

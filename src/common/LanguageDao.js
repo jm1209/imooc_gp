@@ -13,7 +13,7 @@ export default class LanguageDao {
         this.flag = flag;
     }
 
-    save = (data) => {
+    save(data) {
         AsyncStorage.setItem(this.flag, JSON.stringify(data))
     };
 
@@ -22,19 +22,20 @@ export default class LanguageDao {
             AsyncStorage.getItem(this.flag, (error, result) => {
                 if (error) {
                     reject(error);
-                } else {
-                    if (result) {
-                        try {
-                            resolve(JSON.parse(result))
-                        } catch (e) {
-                            result(e)
-                        }
-                    } else {
-                        var data = this.flag === FLAG_LANGUAGE.flag_key ? keys : null;
-                        this.save(data);
-                        resolve(data);
-                    }
+                    return;
                 }
+                if (result) {
+                    try {
+                        resolve(JSON.parse(result))
+                    } catch (e) {
+                        result(e)
+                    }
+                } else {
+                    var data = this.flag === FLAG_LANGUAGE.flag_key ? keys : null;
+                    this.save(data);
+                    resolve(data);
+                }
+
             })
         })
     }

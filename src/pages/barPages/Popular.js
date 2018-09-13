@@ -6,28 +6,54 @@ import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-v
 import NavigationBar from '../../common/NavigationBar';
 import RepositoryCell from '../../common/RepositoryCell'
 import FetchUtil from '../../utils/FetchUtil';
+import LanguageDao, {FLAG_LANGUAGE} from '../../common/LanguageDao';
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
 
 export default class Popular extends Component {
+    constructor(props) {
+        super(props);
+        this.languageDao = new LanguageDao(FLAG_LANGUAGE.flag_key);
+        this.state = {
+            tabArr: []
+        }
+    }
+
+    loadData() {
+        this.languageDao.fetch()
+            .then(result => {
+                this.setState({
+                    tabArr: result
+                });
+            });
+    }
+
+    componentDidMount() {
+        this.loadData();
+    }
+
     render() {
+        const {tabArr} = this.state;
+
+        let content = tabArr.length > 0 ? <ScrollableTabView
+            tabBarBackgroundColor='#6495ED'
+            tabBarInactiveTextColor='#fff'
+            tabBarActiveTextColor='mintcream'
+            tabBarUnderlineStyle={{backgroundColor: '#e7e7e7', height: 2}}
+            renderTabBar={() => <ScrollableTabBar/>}
+        >
+            {tabArr.map((res, index, arr) => {
+                let lan = arr[index];
+                return lan.checked ? <PopularTab tabLabel={lan.name}/> : null
+            })}
+
+        </ScrollableTabView> : null;
         return (
             <View style={styles.container}>
                 <NavigationBar title='流行'/>
 
-                <ScrollableTabView
-                    tabBarBackgroundColor='#6495ED'
-                    tabBarInactiveTextColor='#fff'
-                    tabBarActiveTextColor='mintcream'
-                    tabBarUnderlineStyle={{backgroundColor: '#e7e7e7', height: 2}}
-                    renderTabBar={() => <ScrollableTabBar/>}
-                >
-                    <PopularTab tabLabel='all'/>
-                    <PopularTab tabLabel='Android'/>
-                    <PopularTab tabLabel='IOS'/>
-                    <PopularTab tabLabel='Java'/>
-                </ScrollableTabView>
+                {content}
             </View>
         )
     }
