@@ -11,6 +11,7 @@
 		"react-native": "0.47.2",
 		"react-native-check-box": "^2.0.2",
 		"react-native-scrollable-tab-view": "^0.8.0",
+		"react-native-sortable-listview": "^0.2.6",
 		"react-native-tab-navigator": "^0.3.4",
 		"react-navigation": "^2.13.0"
 	},

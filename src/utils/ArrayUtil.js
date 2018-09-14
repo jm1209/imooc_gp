@@ -12,4 +12,18 @@ export default class ArrayUtil {
         }
         arr.push(item);
     }
+
+    /*
+    * 克隆数组
+    * */
+    static clone(arr) {
+        if (!arr) {
+            return [];
+        }
+        let newArr = [];
+        for (let i = 0; i < arr.length; i++) {
+            newArr[i] = arr[i]
+        }
+        return newArr;
+    }
 }

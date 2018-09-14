@@ -45,7 +45,7 @@ export default class Popular extends Component {
         >
             {tabArr.map((res, index, arr) => {
                 let lan = arr[index];
-                return lan.checked ? <PopularTab tabLabel={lan.name}/> : null
+                return lan.checked ? <PopularTab tabLabel={lan.name} key={index}/> : null
             })}
 
         </ScrollableTabView> : null;

@@ -15,6 +15,11 @@ export default class My extends Component {
                 }}>
                     <Text>自定义标签页</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    this.props.navigation.navigate('SortKey');
+                }}>
+                    <Text>标签排序</Text>
+                </TouchableOpacity>
             </View>
         )
     }
