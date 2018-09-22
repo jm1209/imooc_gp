@@ -42,18 +42,27 @@ export default class CustomKey extends Component {
     }
 
     onBack() {
-        Alert.alert(
-            '提示',
-            '要保存修改么？',
-            [
-                {text: '不保存', onPress: () => this.props.navigation.pop()},
-                {text: '保存', onPress: () => this.isSave()}
-            ]
-        )
+        if (this.changeVal.length > 0) {
+            Alert.alert(
+                '提示',
+                '要保存修改么？',
+                [
+                    {text: '不保存', onPress: () => this.props.navigation.pop()},
+                    {text: '保存', onPress: () => this.isSave()}
+                ]
+            )
+        } else {
+            this.props.navigation.pop()
+        }
+
     }
 
-    checkBoxChange = (data) => {
+    checkBoxChange = (data, index) => {
         data.checked = !data.checked;
+        this.state.tagArr[index] = data;
+        this.setState({
+            tagArr: this.state.tagArr
+        });
         ArrayUtil.updateArray(this.changeVal, data);
     };
 
@@ -67,8 +76,8 @@ export default class CustomKey extends Component {
             views.push(
                 <View key={i}>
                     <View style={styles.item}>
-                        {this.renderCheckBox(tagArr[i])}
-                        {this.renderCheckBox(tagArr[i + 1])}
+                        {this.renderCheckBox(tagArr[i], i)}
+                        {this.renderCheckBox(tagArr[i + 1], i + 1)}
                     </View>
                 </View>
             )
@@ -76,22 +85,22 @@ export default class CustomKey extends Component {
         views.push(
             <View key={len - 1}>
                 <View style={styles.item}>
-                    {len % 2 === 0 ? this.renderCheckBox(tagArr[len - 2]) : null}
-                    {this.renderCheckBox(tagArr[len - 1])}
+                    {len % 2 === 0 ? this.renderCheckBox(tagArr[len - 2], len - 2) : null}
+                    {this.renderCheckBox(tagArr[len - 1], len - 1)}
                 </View>
             </View>
         );
         return views;
     }
 
-    renderCheckBox(data) {
+    renderCheckBox(data, index) {
         let leftText = data.name;
         let isChecked = data.checked;
 
         return (
             <CheckBox
                 style={{flex: 1, padding: 10}}
-                onClick={() => this.checkBoxChange(data)}
+                onClick={() => this.checkBoxChange(data, index)}
                 isChecked={isChecked}
                 leftText={leftText}
                 checkedImage={<Image source={require('../../images/ic_check_box.png')} style={{tintColor: '#6495ed'}}/>}
