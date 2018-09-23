@@ -8,6 +8,7 @@ import RepositoryCell from '../../common/RepositoryCell'
 import FetchUtil from '../../utils/FetchUtil';
 import DataDepot from '../../common/DataDepot';
 import LanguageDao, {FLAG_LANGUAGE} from '../../common/LanguageDao';
+import NavigatorUtil from '../../utils/NavigatorUtil';
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';
@@ -37,6 +38,7 @@ export default class Popular extends Component {
     render() {
         const {tabArr} = this.state;
 
+
         let content = tabArr.length > 0 ? <ScrollableTabView
             tabBarBackgroundColor='#6495ED'
             tabBarInactiveTextColor='#fff'
@@ -46,7 +48,7 @@ export default class Popular extends Component {
         >
             {tabArr.map((res, index, arr) => {
                 let lan = arr[index];
-                return lan.checked ? <PopularTab tabLabel={lan.name} key={index}/> : null
+                return lan.checked ? <PopularTab tabLabel={lan.name} key={index} {...this.props}/> : null
             })}
 
         </ScrollableTabView> : null;
@@ -78,6 +80,18 @@ class PopularTab extends Component {
     getFetchUrl = (key) => {
         return URL + key + QUERY_STR;
     };
+
+    goDetail(item) {
+        const {navigate} = this.props.navigation;
+        navigate({
+            routeName: 'PopularDetail',
+            params: {
+                item: item,
+                ...this.props
+            }
+        })
+
+    }
 
     loadData() {
         this.setState({
@@ -112,8 +126,9 @@ class PopularTab extends Component {
         return (
             <View>
                 <FlatList
+                    keyExtractor={(item) => item.id}
                     data={projectModels}
-                    renderItem={({item}) => <RepositoryCell item={item} keyExtractor={item.id}/>}
+                    renderItem={({item}) => <RepositoryCell item={item} goDetail={() => this.goDetail(item)}/>}
                     refreshing={isLoading}
                     onRefresh={() => this.loadData()}
                 />

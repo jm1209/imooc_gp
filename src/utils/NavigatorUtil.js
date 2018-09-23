@@ -13,7 +13,7 @@ export default class NavigatorUtil {
     * */
     static goToRepositoryDetail(params) {
         const {navigation, projectModel, flag, theme, onUpdateFavorite} = params;
-        navigation.navigate('RepositoryDetail', {
+        navigation.navigate('PopularDetail', {
             projectModel,
             flag,
             theme,

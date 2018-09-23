@@ -3,7 +3,8 @@ import {View, Text, StyleSheet, TouchableOpacity,AsyncStorage} from 'react-nativ
 
 import NavigationBar from '../../common/NavigationBar';
 
-var navigation = null
+const navigation = null;
+
 export default class My extends Component {
 
     render() {
