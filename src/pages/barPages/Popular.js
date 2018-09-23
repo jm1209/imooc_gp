@@ -87,13 +87,11 @@ class PopularTab extends Component {
         let url = this.getFetchUrl(this.props.tabLabel);
         this.dataDepot.fetchData(url)
             .then(result => {
-                debugger
                 let items = result.items ? result.items : [];
                 this.setState({
                     projectModels: items,
                     isLoading: false
                 });
-                this.dataDepot.checkData(result.update_data)
                 if (result && result.update_data && !this.dataDepot.checkData(result.update_data)) {
                     return this.dataDepot.fetchData(url)
                 }

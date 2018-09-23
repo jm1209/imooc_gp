@@ -11,10 +11,6 @@ export default class Welcome extends Component {
                 navigation: this.props.navigation
             })
         }, 500)
-        NavigatorUtil.resetToHomePage({
-            theme: this.theme,
-            navigation: this.props.navigation
-        })
     }
 
     componentWillUnmount() {
