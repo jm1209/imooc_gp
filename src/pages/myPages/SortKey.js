@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, Image,TouchableHighlight} from 'react-native';
 
 import SortableListView from 'react-native-sortable-listview';
 import NavigationBar from '../../common/NavigationBar';
@@ -49,7 +49,6 @@ export default class SortKey extends Component {
 
     render() {
         const {checkArr} = this.state;
-        console.log(checkArr)
         return (
             <View style={styles.container}>
                 <NavigationBar
@@ -68,8 +67,8 @@ export default class SortKey extends Component {
                     data={checkArr}
                     order={Object.keys(checkArr)}
                     onRowMoved={e => {
-                        checkArr.splice(e.to, 0, checkArr.splice(e.from, 1)[0]);
-                        this.forceUpdate();
+                        Object.keys(checkArr).splice(e.to, 0, Object.keys(checkArr).splice(e.from, 1)[0])
+                        this.forceUpdate()
                     }}
                     renderRow={row => <SortCell data={row}/>}
                 />
@@ -82,8 +81,7 @@ class SortCell extends Component {
     render() {
         const {data} = this.props;
         return (
-            <TouchableOpacity
-                opacity={1}
+            <TouchableHighlight
                 underlayColor='#eee'
                 delayLongPress={500}
                 style={styles.item}
@@ -92,7 +90,7 @@ class SortCell extends Component {
                     <Image style={styles.img} source={require('../../images/ic_sort.png')}></Image>
                     <Text>{data.name}</Text>
                 </View>
-            </TouchableOpacity>
+            </TouchableHighlight>
         )
     }
 }
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
     img: {
         width: 16,
         height: 16,
-        tintColor:'#2196f3',
-        marginRight:10
+        tintColor: '#2196f3',
+        marginRight: 10
     }
 });

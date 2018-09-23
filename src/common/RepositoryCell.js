@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginVertical: 3,
         borderWidth: 0.5,
-        borderColor:'#ddd',
-        borderRadius:2,
-        shadowColor:'gray',
-        shadowOffset:{width:0.5, height:0.5},
-        shadowOpacity:0.4,
-        shadowRadius:1,
-        elevation:2
+        borderColor: '#ddd',
+        borderRadius: 2,
+        shadowColor: 'gray',
+        shadowOffset: {width: 0.5, height: 0.5},
+        shadowOpacity: 0.4,
+        shadowRadius: 1,
+        elevation: 2
     }
 });

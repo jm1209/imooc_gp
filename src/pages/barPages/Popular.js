@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
+import {View, Text, StyleSheet, FlatList, ActivityIndicator, AsyncStorage} from 'react-native';
 
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 
 import NavigationBar from '../../common/NavigationBar';
 import RepositoryCell from '../../common/RepositoryCell'
 import FetchUtil from '../../utils/FetchUtil';
+import DataDepot from '../../common/DataDepot';
 import LanguageDao, {FLAG_LANGUAGE} from '../../common/LanguageDao';
 
 const URL = 'https://api.github.com/search/repositories?q=';
@@ -62,6 +63,8 @@ export default class Popular extends Component {
 class PopularTab extends Component {
     constructor(props) {
         super(props);
+
+        this.dataDepot = new DataDepot();
         this.state = {
             projectModels: [],
             isLoading: false
@@ -76,29 +79,34 @@ class PopularTab extends Component {
         return URL + key + QUERY_STR;
     };
 
-    loadData(refreshing) {
+    loadData() {
         this.setState({
             isLoading: true
         });
 
         let url = this.getFetchUrl(this.props.tabLabel);
-
-        FetchUtil.get(url)
+        this.dataDepot.fetchData(url)
             .then(result => {
+                debugger
+                let items = result.items ? result.items : [];
+                this.setState({
+                    projectModels: items,
+                    isLoading: false
+                });
+                this.dataDepot.checkData(result.update_data)
+                if (result && result.update_data && !this.dataDepot.checkData(result.update_data)) {
+                    return this.dataDepot.fetchData(url)
+                }
+            })
+            .then(result => {
+                if (!result.items || result.items.length === 0) {
+                    return;
+                }
                 this.setState({
                     projectModels: result.items,
                     isLoading: false
-                })
+                });
             })
-
-    }
-
-    genIndcator() {
-        return (
-            <View>
-                <ActivityIndicator size='large' animating={true}/>
-            </View>
-        )
     }
 
     render() {
@@ -107,7 +115,7 @@ class PopularTab extends Component {
             <View>
                 <FlatList
                     data={projectModels}
-                    renderItem={({item}) => <RepositoryCell item={item}/>}
+                    renderItem={({item}) => <RepositoryCell item={item} keyExtractor={item.id}/>}
                     refreshing={isLoading}
                     onRefresh={() => this.loadData()}
                 />
