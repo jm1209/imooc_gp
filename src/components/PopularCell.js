@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 
-export default class RepositoryCell extends Component {
+export default class PopularCell extends Component {
 
     render() {
         const {item} = this.props;

@@ -2,6 +2,7 @@ import React from 'react';
 import {AsyncStorage} from 'react-native';
 
 import keys from '../data/keys.json';
+import langs from '../data/langs.json';
 
 export const FLAG_LANGUAGE = {
     flag_language: 'flag_language_language',
@@ -31,7 +32,7 @@ export default class LanguageDao {
                         reject(e)
                     }
                 } else {
-                    var data = this.flag === FLAG_LANGUAGE.flag_key ? keys : null;
+                    var data = this.flag === FLAG_LANGUAGE.flag_key ? keys : langs;
                     this.save(data);
                     resolve(data);
                 }

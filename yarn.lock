@@ -16,6 +16,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+GitHubTrending@^3.0.0:
+  version "3.0.0"
+  resolved "http://registry.npm.taobao.org/GitHubTrending/download/GitHubTrending-3.0.0.tgz#554ad6ffc3feddcb367d6b170f309cbf80c54964"
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/abab/download/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"

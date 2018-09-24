@@ -1,15 +1,18 @@
 import React from 'react';
 import {AsyncStorage} from 'react-native';
 
-import FetchUtil from "../utils/FetchUtil";
+import GitHubTrending from 'GitHubTrending';
 
-export default class DataDepot {
+export default class TrendingData {
+    constructor(props) {
+        this.gitHubTrending = new GitHubTrending();
+    }
+
     fetchData(url) {
         return new Promise((resolve, reject) => {
             this.fetchLocalData(url)
                 .then(result => {
                     if (result) {
-
                         resolve(result)
                     } else {
                         this.fetchInterfaceData(url).then(result => {
@@ -50,11 +53,10 @@ export default class DataDepot {
     * */
     fetchInterfaceData(url) {
         return new Promise((resolve, reject) => {
-            FetchUtil.get(url)
-                .then(result => {
-                    this.saveData(url, result);
-                    resolve(result);
-                })
+            this.gitHubTrending.fetchTrending(url).then(result => {
+                this.saveData(url, result);
+                resolve(result);
+            })
         });
 
     }
@@ -67,7 +69,7 @@ export default class DataDepot {
             return;
         }
         let wrapData = {
-            items: items.items,
+            items: items,
             update_data: new Date().getTime()
         };
         AsyncStorage.setItem(url, JSON.stringify(wrapData), callback)

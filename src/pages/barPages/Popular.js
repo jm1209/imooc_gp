@@ -4,8 +4,8 @@ import {View, Text, StyleSheet, FlatList, ActivityIndicator, AsyncStorage} from 
 import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-view';
 
 import NavigationBar from '../../common/NavigationBar';
-import RepositoryCell from '../../common/RepositoryCell'
-import DataDepot from '../../common/DataDepot';
+import PopularCell from '../../components/PopularCell'
+import PopularData from '../../common/PopularData';
 import LanguageDao, {FLAG_LANGUAGE} from '../../common/LanguageDao';
 
 const URL = 'https://api.github.com/search/repositories?q=';
@@ -64,7 +64,7 @@ class PopularTab extends Component {
     constructor(props) {
         super(props);
 
-        this.dataDepot = new DataDepot();
+        this.popularData = new PopularData();
         this.state = {
             projectModels: [],
             isLoading: false
@@ -97,15 +97,15 @@ class PopularTab extends Component {
         });
 
         let url = this.getFetchUrl(this.props.tabLabel);
-        this.dataDepot.fetchData(url)
+        this.popularData.fetchData(url)
             .then(result => {
                 let items = result.items ? result.items : [];
                 this.setState({
                     projectModels: items,
                     isLoading: false
                 });
-                if (result && result.update_data && !this.dataDepot.checkData(result.update_data)) {
-                    return this.dataDepot.fetchData(url)
+                if (result && result.update_data && !this.popularData.checkData(result.update_data)) {
+                    return this.popularData.fetchData(url)
                 }
             })
             .then(result => {
@@ -126,7 +126,7 @@ class PopularTab extends Component {
                 <FlatList
                     keyExtractor={(item) => item.id}
                     data={projectModels}
-                    renderItem={({item}) => <RepositoryCell item={item} goDetail={() => this.goDetail(item)}/>}
+                    renderItem={({item}) => <PopularCell item={item} goDetail={() => this.goDetail(item)}/>}
                     refreshing={isLoading}
                     onRefresh={() => this.loadData()}
                 />
