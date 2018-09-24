@@ -5,10 +5,8 @@ import ScrollableTabView, {ScrollableTabBar} from 'react-native-scrollable-tab-v
 
 import NavigationBar from '../../common/NavigationBar';
 import RepositoryCell from '../../common/RepositoryCell'
-import FetchUtil from '../../utils/FetchUtil';
 import DataDepot from '../../common/DataDepot';
 import LanguageDao, {FLAG_LANGUAGE} from '../../common/LanguageDao';
-import NavigatorUtil from '../../utils/NavigatorUtil';
 
 const URL = 'https://api.github.com/search/repositories?q=';
 const QUERY_STR = '&sort=stars';

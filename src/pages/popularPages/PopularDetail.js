@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {WebView, View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {WebView, View, StyleSheet} from 'react-native';
 import NavigationBar from "../../common/NavigationBar";
 import ViewUtil from "../../utils/ViewUtil";
 
@@ -8,8 +8,8 @@ export default class PopularDetail extends Component {
         super(props);
 
         this.state = {
-            title: 'WebView',
-            url: 'https://www.baidu.com',
+            title: this.props.navigation.state.params.item.full_name,
+            url: this.props.navigation.state.params.item.html_url,
             canGoBack: false
         }
     }
@@ -41,6 +41,7 @@ export default class PopularDetail extends Component {
                     ref={webView => this.webView = webView}
                     source={{uri: url}}
                     onNavigationStateChange={e => this.onNavigationStateChange(e)}
+                    startInLoadingState={true}
                 />
             </View>
         )
